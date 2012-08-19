@@ -2,6 +2,7 @@
 =================================================================================
 
 ## Version
+
 1.1.0
 
 ## Requirements
@@ -9,14 +10,19 @@
 
 ## Installation
 
-Automatic installtion:
+Automatic installtion using (pip)[http://pypi.python.org/pypi]:
 
     pip install dwolla
 
 ## Usage
 
+    from dwolla import DwollaUser
+    DwollaUser = DwollaUser('[OAuth Token Goes Here]')
+
+    transactionId = DwollaUser.send_funds(1.00, '812-626-8794', _keys.pin)
+    print(transactionId)
     
-## Examples
+## Examples / Quickstart
 
 This repo includes various usage examples, including:
 
@@ -27,6 +33,35 @@ This repo includes various usage examples, including:
 * Listing a user's funding sources [fundingSources.py]
 * Creating offsite gateway sessions [offsiteGateway.py]
 * Registering a new Dwolla user account [registerUser.py]
+
+## Methods
+
+DwollaClientApp class:
+
+    init_oauth_url(redircet_uri, scope) ==> (string) OAuth permissions page URL
+    get_oauth_token(code)               ==> (string) a never-expiring OAuth access token
+    setMode(mode)                       ==> (bool) did mode change?
+    get_account_info(account_id)        ==> (array) the user entity for {$user_id}
+    get_nearby_spots([lat, lon, range, limit])  ==> (array) list of nearby spots matching the search criteria
+    register_user(email, password, pin, firstName, lastName, address, address2, city, state, zip, phone, dateOfBirth[, organization, ein, type, acceptTerms])   ==> (dict) the newly created user record
+
+DwollaUser class:
+
+    get_account_info()  ==> (dict) the user entity associated with the token
+    get_balance()       ==> (string) the Dwolla balance of the account associated with the token
+    get_contacts()      ==> (array) list of contacts matching the search criteria
+    get_transaction()   ==> (dict) transaction details
+    get_transaction_list()  ==> (array) a list of recent transactions matching the search criteria
+    get_transaction_stats() ==> (dict) statistics about the account associated with the token
+    send_funds()        ==> (string) transaction ID
+    request_funds()     ==> (string) request ID
+    get_funding_sources()   ==> (array) a list of funding sources associated with the token
+    get_funding_source()    ==> (dict) information about the {$id} funding source
+
+DwollerHelper class:
+
+    parseDwollaID(id)   ==> (bool) is valid Dwolla ID?
+    
 
 ## Credits
 

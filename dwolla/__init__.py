@@ -14,6 +14,11 @@ import requests
 import datetime
 
 
+class DwollaHelper()
+    def parseDwollaId(id):
+            
+    
+
 class DwollaAPIError(Exception):
     '''Raised if the dwolla api returns an error.'''
     pass
@@ -29,6 +34,14 @@ class DwollaClientApp(object):
         self.api_url = "https://www.dwolla.com/oauth/rest/"
         self.auth_url = "https://www.dwolla.com/oauth/v2/authenticate"
         self.token_url = "https://www.dwolla.com/oauth/v2/token"
+        self.mode = 'LIVE'
+        
+    def set_mode(self, mode)
+        if mode not in ['LIVE', 'TEST']:
+            return False
+        
+        self.mode = mode
+        return True;
 
     def parse_response(self, resp):
         '''
