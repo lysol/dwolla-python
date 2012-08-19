@@ -16,11 +16,11 @@ Automatic installtion using (pip)[http://pypi.python.org/pypi]:
 
 ## Usage
 ```python
-    from dwolla import DwollaUser
-    DwollaUser = DwollaUser('[OAuth Token Goes Here]')
+from dwolla import DwollaUser
+DwollaUser = DwollaUser('[OAuth Token Goes Here]')
 
-    transactionId = DwollaUser.send_funds(1.00, '812-626-8794', '[PIN]')
-    print transactionId
+transactionId = DwollaUser.send_funds(1.00, '812-626-8794', '[PIN]')
+print transactionId
 ```
 ## Examples / Quickstart
 
