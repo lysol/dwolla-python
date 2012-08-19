@@ -45,7 +45,7 @@ DwollaClientApp class:
     register_user(email, password, pin, firstName, lastName, address, address2, city, state, zip, phone, dateOfBirth[, organization, ein, type, acceptTerms])   ==> (dict) the newly created user record
 
 DwollaUser class:
-
+```python
     get_balance()                           ==> (string) the Dwolla balance of the account associated with the token
     get_account_info(account_id)            ==> (dict) the user entity associated with the token
     get_contacts([search, types, limit])    ==> (array) list of contacts matching the search criteria
@@ -56,7 +56,7 @@ DwollaUser class:
     request_funds(amount, source, pin[, notes, facil_amount, source_type])          ==> (string) request ID
     get_funding_sources()   ==> (array) a list of funding sources associated with the token
     get_funding_source(id)  ==> (dict) information about the {id} funding source
-
+```
 DwollaGateway class:
     
     set_mode(mode)          ==> (bool) did mode change?
