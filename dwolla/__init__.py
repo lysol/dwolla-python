@@ -14,10 +14,89 @@ import requests
 import datetime
 
 
-class DwollaHelper()
-    def parse_dwolla_id(id):
+class DwollaGateway(object):
+    def __init__(self, client_id, client_secret, redirect_uri):
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.redirect_uri = redirect_uri
+        self.session = []
+        self.mode = 'LIVE'
+
+    def set_mode(self, mode):
+        if mode not in ['LIVE', 'TEST']:
+            return False
+        
+        self.mode = mode
         return True
-    
+
+    def start_gateway_session(self):
+        self.session = []
+        return True
+
+    def add_gateway_product(self, name, amount, desc = '', qty = 1):
+        product = {}
+        product['Name'] = name
+        product['Description'] = desc
+        product['Price'] = amount
+        product['Quantity'] = qty
+
+        self.session.append(product)
+        return True
+        
+    def get_gateway_URL(self, destination_id, order_id = None, discount = 0, shipping = 0, tax = 0, notes = None, callback = None):
+        # Calcualte subtotal
+        subtotal = 0
+        for product in self.session:
+            subtotal += float(product['Price']) * float(product['Quantity'])
+            
+        # Calculate grand total
+        total = subtotal - discount + shipping + tax
+
+        # Create request body
+        request = {}
+        request['Key'] = self.client_id
+        request['Secret'] = self.client_secret
+        request['Redirect'] = self.redirect_uri
+        request['Test'] = 'true' if (self.mode == 'TEST') else 'false'
+        request['PurchaseOrder'] = {}
+        request['PurchaseOrder']['DestinationId'] = destination_id
+        request['PurchaseOrder']['OrderItems'] = self.session
+        request['PurchaseOrder']['Discount'] = -discount
+        request['PurchaseOrder']['Shipping'] = shipping
+        request['PurchaseOrder']['Tax'] = tax
+        request['PurchaseOrder']['Total'] = round(total, 2)
+
+        # Append optional parameters
+        if order_id:
+            request['OrderId'] = order_id
+        if callback:
+            request['Callback'] = callback
+        if notes:
+            request['PurchaseOrder']['Notes'] = notes
+            
+        # Send off the request
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps(request)
+        response = requests.post('https://www.dwolla.com/payment/request', data=data, headers=headers)
+
+        # Parse the response
+        response = json.loads(response.content)
+        if response['Result'] != 'Success':
+            raise DwollaAPIError(response['Message'])
+
+        return 'https://www.dwolla.com/payment/checkout/%s' % response['CheckoutId']
+
+    def verify_gateway_signature(self, signature, checkout_id, amount):
+        import hmac
+        import hashlib
+
+        amount = float(amount)
+
+        raw = '%s&%s' % (checkout_id, amount)
+        hash = hmac.new(self.client_secret, raw, hashlib.sha1).hexdigest()
+
+        return True if (hash == signature) else False
+        
 
 class DwollaAPIError(Exception):
     '''Raised if the dwolla api returns an error.'''
@@ -34,14 +113,6 @@ class DwollaClientApp(object):
         self.api_url = "https://www.dwolla.com/oauth/rest/"
         self.auth_url = "https://www.dwolla.com/oauth/v2/authenticate"
         self.token_url = "https://www.dwolla.com/oauth/v2/token"
-        self.mode = 'LIVE'
-        
-    def set_mode(self, mode)
-        if mode not in ['LIVE', 'TEST']:
-            return False
-        
-        self.mode = mode
-        return True
 
     def parse_response(self, resp):
         '''
@@ -129,8 +200,6 @@ class DwollaClientApp(object):
         url = "%s%s" % (self.api_url, endpoint)
         headers = {'Content-Type': 'application/json'}
         data = json.dumps(data)
-        print(url)
-        print(data)
         return requests.post(url, data=data, headers=headers)
 
     def get(self, resource, **params):

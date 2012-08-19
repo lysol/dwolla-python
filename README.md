@@ -3,7 +3,7 @@
 
 ## Version
 
-1.1.0
+1.2.0
 
 ## Requirements
 - [Python](http://www.python.org/)
@@ -40,28 +40,30 @@ DwollaClientApp class:
 
     init_oauth_url(redircet_uri, scope) ==> (string) OAuth permissions page URL
     get_oauth_token(code)               ==> (string) a never-expiring OAuth access token
-    setMode(mode)                       ==> (bool) did mode change?
-    get_account_info(account_id)        ==> (array) the user entity for {$user_id}
+    get_account_info(account_id)        ==> (array) the user entity for {account_id}
     get_nearby_spots([lat, lon, range, limit])  ==> (array) list of nearby spots matching the search criteria
     register_user(email, password, pin, firstName, lastName, address, address2, city, state, zip, phone, dateOfBirth[, organization, ein, type, acceptTerms])   ==> (dict) the newly created user record
 
 DwollaUser class:
 
-    get_account_info()  ==> (dict) the user entity associated with the token
-    get_balance()       ==> (string) the Dwolla balance of the account associated with the token
-    get_contacts()      ==> (array) list of contacts matching the search criteria
-    get_transaction()   ==> (dict) transaction details
-    get_transaction_list()  ==> (array) a list of recent transactions matching the search criteria
-    get_transaction_stats() ==> (dict) statistics about the account associated with the token
-    send_funds()        ==> (string) transaction ID
-    request_funds()     ==> (string) request ID
+    get_balance()                           ==> (string) the Dwolla balance of the account associated with the token
+    get_account_info(account_id)            ==> (dict) the user entity associated with the token
+    get_contacts([search, types, limit])    ==> (array) list of contacts matching the search criteria
+    get_transaction(transaction_id)         ==> (dict) transaction details
+    get_transaction_list([since, types, limit, skip])       ==> (array) a list of recent transactions matching the search criteria
+    get_transaction_stats([types, start_date, end_date])    ==> (dict) statistics about the account associated with the token
+    send_funds(amount, dest, pin[, notes, assume_cost, facil_amount, dest_type])    ==> (string) transaction ID
+    request_funds(amount, source, pin[, notes, facil_amount, source_type])          ==> (string) request ID
     get_funding_sources()   ==> (array) a list of funding sources associated with the token
-    get_funding_source()    ==> (dict) information about the {$id} funding source
+    get_funding_source(id)  ==> (dict) information about the {id} funding source
 
-DwollerHelper class:
-
-    parse_dwolla_id(id)   ==> (bool) is valid Dwolla ID?
+DwollaGateway class:
     
+    set_mode(mode)          ==> (bool) did mode change?
+    start_gateway_session() ==> (bool) did session start?
+    add_gateway_product(name, amount[, desc, qty])              ==> (bool) was product added?
+    verify_gateway_signature(signature, checkout_id, amount)    ==> (bool) is signature valid?
+    get_gateway_URL(destination_id[, order_id, discount, shipping, tax, notes, callback])    ==> (string) checkout URL
 
 ## Credits
 
