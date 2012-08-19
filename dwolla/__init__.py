@@ -15,8 +15,8 @@ import datetime
 
 
 class DwollaHelper()
-    def parseDwollaId(id):
-            
+    def parse_dwolla_id(id):
+        return True
     
 
 class DwollaAPIError(Exception):
@@ -41,7 +41,7 @@ class DwollaClientApp(object):
             return False
         
         self.mode = mode
-        return True;
+        return True
 
     def parse_response(self, resp):
         '''

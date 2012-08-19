@@ -60,7 +60,7 @@ DwollaUser class:
 
 DwollerHelper class:
 
-    parseDwollaID(id)   ==> (bool) is valid Dwolla ID?
+    parse_dwolla_id(id)   ==> (bool) is valid Dwolla ID?
     
 
 ## Credits
