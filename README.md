@@ -7,14 +7,16 @@
 
 ## Requirements
 - [Python](http://www.python.org/)
+- [Dwolla Application](https://www.dwolla.com/applications)
 
 ## Installation
 
-Automatic installtion using (pip)[http://pypi.python.org/pypi]:
+Automatic installation using [pip](http://pypi.python.org/pypi):
 
     pip install dwolla
 
 ## Usage
+
 ```python
 from dwolla import DwollaUser
 DwollaUser = DwollaUser('[OAuth Token Goes Here]')
@@ -22,6 +24,7 @@ DwollaUser = DwollaUser('[OAuth Token Goes Here]')
 transactionId = DwollaUser.send_funds(1.00, '812-626-8794', '[PIN]')
 print transactionId
 ```
+
 ## Examples / Quickstart
 
 This repo includes various usage examples, including:

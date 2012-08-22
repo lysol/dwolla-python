@@ -30,7 +30,7 @@ def example1():
     
     # Creates a checkout session, and return the URL
     # Destination ID: 812-626-8794
-    url = Dwolla.get_gateway_URL('812-626-8794', discount=9.99)
+    url = Dwolla.get_gateway_URL('812-626-8794')
 
     return 'To begin the checkout process, send the user off to <a href="%s">%s</a>' % (url, url)
 
@@ -59,7 +59,7 @@ def example2():
     # Creates a checkout session, and return the URL
     # Destination ID: 812-626-8794
     # Order ID: 10001
-    # Discount: $5
+    # Discount: $24.85
     # Shipping: $0.99
     # Tax: $1.87
     # Memo: 'This is a great purchase'
