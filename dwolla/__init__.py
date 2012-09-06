@@ -428,7 +428,7 @@ class DwollaUser(object):
             params['startDate'] = start_date
         if types:
             params['endDate'] = end_date
-        self.get("transactions/stats", **params)
+        return self.get("transactions/stats", **params)
 
     def send_funds(self, amount, dest, pin,
             notes=None, assume_cost=None, facil_amount=None, dest_type=None):
@@ -468,7 +468,7 @@ class DwollaUser(object):
             params['facilitatorAmount'] = facil_amount
         if dest_type:
             params['destinationType'] = dest_type
-        self.post('transactions/send', params)
+        return self.post('transactions/send', params)
 
     def request_funds(self, amount, source, pin,
             notes=None, facil_amount=None, source_type=None):
@@ -503,7 +503,7 @@ class DwollaUser(object):
             params['facilitatorAmount'] = facil_amount
         if source_type:
             params['sourceType'] = source_type
-        self.post('transactions/request', params)
+        return self.post('transactions/request', params)
 
     def get_funding_sources(self):
         ''' Returns a list of verified funding sources for the user '''
