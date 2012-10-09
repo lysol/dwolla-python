@@ -3,7 +3,7 @@
 
 ## Version
 
-1.3.2
+1.3.3
 
 ## Requirements
 - [Python](http://www.python.org/)
