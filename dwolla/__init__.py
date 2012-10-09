@@ -431,7 +431,7 @@ class DwollaUser(object):
         return self.get("transactions/stats", **params)
 
     def send_funds(self, amount, dest, pin,
-            notes=None, assume_cost=None, facil_amount=None, dest_type=None):
+            notes=None, assume_cost=None, facil_amount=None, dest_type=None, funds_source=None):
         '''
         Send funds from this user account to another one.
 
@@ -458,6 +458,9 @@ class DwollaUser(object):
         :param dest_type: (optional) Type of destination user.
             Defaults to "Dwolla". Can be "Dwolla", "Facebook", "Twitter",
             "Email", or "Phone".
+            
+        :param funds_source: (optional) The Dwolla ID of the funding
+           source to be used. Defaults to the user's Dwolla balance.
         '''
         params = {'pin': pin, 'destinationId': dest, 'amount': amount}
         if notes:
@@ -468,6 +471,9 @@ class DwollaUser(object):
             params['facilitatorAmount'] = facil_amount
         if dest_type:
             params['destinationType'] = dest_type
+        if funds_source:
+            params['fundsSource'] = funds_source
+
         return self.post('transactions/send', params)
 
     def request_funds(self, amount, source, pin,
@@ -515,7 +521,5 @@ class DwollaUser(object):
 
         :param source_id: Funding source identifier of the funding source
             being requested.
-        '''
-        params = {}
-        params['fundingid'] = source_id
-        return self.get('fundingsources', **params)
+        '''               
+        return self.get("fundingsources/%s" % source_id)
