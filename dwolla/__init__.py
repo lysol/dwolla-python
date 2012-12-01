@@ -77,7 +77,7 @@ class DwollaGateway(object):
         # Send off the request
         headers = {'Content-Type': 'application/json'}
         data = json.dumps(request)
-        response = requests.post('https://www.dwolla.com/payment/request', data=data, headers=headers)
+        response = requests.post('https://www.dwolla.com/payment/request', data=data, headers=headers, verify=True)
 
         # Parse the response
         response = json.loads(response.content)
@@ -178,7 +178,7 @@ class DwollaClientApp(object):
         }
         if 'redirect_uri' in kwargs:
             params['redirect_uri'] = kwargs['redirect_uri']
-        resp = requests.get(self.token_url, params=params)
+        resp = requests.get(self.token_url, params=params, verify=True)
         resp = json.loads(resp.content)
         try:
             return resp['access_token']
@@ -194,7 +194,7 @@ class DwollaClientApp(object):
         params['client_id'] = self.client_id
         params['client_secret'] = self.client_secret
         url = "%s/%s" % (self.api_url, resource)
-        return requests.get(url, params=params)
+        return requests.get(url, params=params, verify=True)
 
     def api_post(self, endpoint, data):
         url = "%s%s" % (self.api_url, endpoint)
@@ -317,7 +317,7 @@ class DwollaUser(object):
     def api_get(self, endpoint, **params):
         url = "%s/%s" % (self.api_url, endpoint)
         params['oauth_token'] = self.access_token
-        return requests.get(url, params=params)
+        return requests.get(url, params=params, verify=True)
 
     def api_post(self, endpoint, data):
         url = "%s/%s" % (self.api_url, endpoint)
