@@ -3,7 +3,7 @@
 
 ## Version
 
-1.3.3
+1.3.4
 
 ## Requirements
 - [Python](http://www.python.org/)
@@ -68,6 +68,12 @@ DwollaGateway class:
     verify_gateway_signature(signature, checkout_id, amount)    ==> (bool) is signature valid?
     get_gateway_URL(destination_id[, order_id, discount, shipping, tax, notes, callback])    ==> (string) checkout URL
 
+## Changelog
+
+1.3.4
+
+* Verify SSL certificate
+
 ## Credits
 
 This wrapper is a forked extension of Thomas Hansen's 'dwolla-python' module.
@@ -75,6 +81,7 @@ This wrapper is a forked extension of Thomas Hansen's 'dwolla-python' module.
 - Thomas Hansen &lt;thomas.hansen@gmail.com&gt;
 - Jordan Bouvier &lt;jbouvier@gmail.com&gt;
 - Michael Schonfeld &lt;michael@dwolla.com&gt;
+- George Sibble &lt;george.sibble@ultapay.com&gt;
 
 ## Support
 
