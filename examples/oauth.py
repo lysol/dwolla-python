@@ -36,7 +36,7 @@ def index():
 def dwolla_oauth_return():
     oauth_return_url = url_for('dwolla_oauth_return', _external=True) # Point back to this file/URL
     code = request.args.get("code")
-    token = Dwolla.get_oauth_token(code, oauth_return_url)
+    token = Dwolla.get_oauth_token(code, redirect_uri=oauth_return_url)
     return 'Your never-expiring OAuth access token is: <b>%s</b>' % token
 
 
